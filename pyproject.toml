@@ -1,0 +1,11 @@
+[project]
+name = "pulse-ecg"
+version = "0.1.0"
+description = "Automated extraction of atrial cardiopathy markers from 10-second 12-lead ECG"
+requires-python = ">=3.11,<3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "figures"]
+xfail_strict = true
+addopts = "-ra"

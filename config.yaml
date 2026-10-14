@@ -1,0 +1,194 @@
+# PULSE AI — ECG track. Every tunable constant lives here; none in source.
+# This file goes in the supplementary material. Paths are relative to this file.
+
+paths:
+  data: data
+  ptbxl: data/ptb-xl-1.0.3
+  ludb: data/ludb-1.0.1
+  qtdb: data/qtdb-1.0.0
+  out: out
+  refs_bib: paper/refs.bib
+
+download:
+  # PhysioNet's open-data mirror on AWS; same files and SHA256SUMS as physionet.org,
+  # but serves individual files fast, so records100 need never be fetched.
+  mirror: https://physionet-open.s3.amazonaws.com
+  workers: 48
+  datasets:
+    ptbxl: {slug: ptb-xl/1.0.3, exclude: [records100/]}
+    ludb:  {slug: ludb/1.0.1,   exclude: []}
+    qtdb:  {slug: qtdb/1.0.0,   exclude: [doc/]}
+
+ptbxl:
+  records: records500          # Rule 1: never records100 (10 ms quantisation)
+  fs: 500
+  duration_s: 10
+
+recording:
+  max_abs_mv: 20               # any larger amplitude means the signal is not in mV
+
+filter:   {notch_hz: 50, notch_q: 30, band: [0.5, 40], order: 4}
+rpeak:    {integ_ms: 100, refractory_ms: 250, thresh_frac: 0.3, refine_ms: 60}
+beat:     {pre_s: 0.40, post_s: 0.50, min_beats: 3}
+# Boundaries on the median beat. QRS: spatial velocity < floor + qrs_frac x (peak - floor).
+# P, T: vector magnitude within p_frac / t_frac of the wave height above its local
+# floor. P absent if its height is < p_min_mv. Fractions tuned on the LUDB tune half.
+bounds:   {qrs_frac: 0.03, p_frac: 0.10, t_frac: 0.05, min_run_ms: 12, p_search_ms: 300, floor_pct: 10,
+          p_min_mv: 0.02, t_search_ms: [40, 450]}
+delineation:
+  method: wavedet        # wavedet (Gate 2 method) | threshold (failed Gate 2; comparison only)
+
+# Martínez et al. 2004 wavelet delineator (pulse_ecg/wavedet.py). Thresholds are
+# the paper's Appendix, eqs. A.3-A.14; lists are [W > 0, W < 0]. Windows are OURS
+# (the paper does not give them); tune only on the LUDB tune half.
+wavedet:
+  eps_t: 0.25            # A.3  x RMS(W_2^4) over the RR interval
+  eps_p: 0.02            # A.4
+  gamma_qrs_pre: 0.06    # A.5
+  gamma_qrs_post: 0.09   # A.6
+  gamma_t: 0.125         # A.7
+  gamma_p: 0.125         # A.8
+  xi_qrs_on: [0.05, 0.07]    # A.9
+  xi_qrs_end: [0.125, 0.71]  # A.10
+  xi_t_end: 0.4          # A.12
+  xi_p_on: 0.5           # A.13
+  xi_p_end: 0.9          # A.14
+  qrs_window_ms: [-100, 120]      # ours: around the R-peak
+  t_window_ms: [60, 700]          # ours: from QRS end; upper cap after R
+  t_window_rr_frac: 0.7           # ours: T window ends at R + 0.7 RR (capped)
+  p_window_ms: 350                # ours: P window starts at R - min(0.45 RR, 350 ms)
+  p_window_rr_frac: 0.45
+  boundary_search_ms: 100
+  p_span_ms: 100                  # ours: P slopes within this of the dominant slope.
+                                  # Was 100: the W_2^4 slope pair of a P wave is ~0.7x its width
+                                  # apart (100 ms at P 150, 142 ms at P 200), so P >= 155 ms lost
+                                  # a slope and was not delineated. 150 is the smallest value that
+                                  # keeps a 200 ms P; larger spans admit more noise slopes (synthetic
+                                  # 0.02 mV noise: p_onset outliers 16% at 100, 25% at 150, 32% at 160).
+                                  # 150 was tested and rejected because on held-out LUDB sinus
+                                  # records it moved the P-duration bias from +5.7 to +34.0 ms and
+                                  # kappa at 120 ms from 0.26 to 0.01. An accurate measurement with
+                                  # documented missing data is usable; a biased measurement on every
+                                  # record is not. (paper/notes/gate2_ludb.md, p_missingness.md)
+  t_span_ms: 150                  # ours: T slopes within this of the dominant slope
+  multilead:                      # Laguna et al. 1994, as used by Martínez 2004 on CSE
+    method: knn                   # knn | extreme | none
+    # k and delta from Laguna 1994 / Martinez 2004, except P: k 2, delta 10 ms (ours,
+    # tuned on the LUDB tune half). With k 3 / delta 6, P duration was 17 ms short
+    # against the clinical all-lead definition (earliest onset to latest offset).
+    k: {p_onset: 2, p_offset: 2, qrs_onset: 3, qrs_offset: 3, t_offset: 3}
+    delta_ms: {p_onset: 10, p_offset: 10, qrs_onset: 6, qrs_offset: 10, t_offset: 12}
+
+# Heart-rate variability. Bands: Task Force 1996 (taskforce1996hrv). SampEn m and r:
+# Richman & Moorman 2000. DFA alpha1 box sizes 4-16 beats: Peng et al. 1995.
+# Every long-window index is declared with min_duration_s = long_window_s (Rule 5).
+hrv:
+  long_window_s: 300
+  resample_hz: 4                # evenly resampled tachogram for the spectrum
+  welch_seg_s: 64
+  lf_band: [0.04, 0.15]
+  hf_band: [0.15, 0.40]
+  pnn_ms: 50
+  sampen: {m: 2, r_frac: 0.2}
+  dfa_alpha1_beats: [4, 16]
+
+# Ventricular family (pulse_ecg/features/ventricular.py). Normal ranges and
+# thresholds are read by the @feature declarations; the cite key is beside each.
+ventricular:
+  qrs_duration_ms: {normal: [70, 110], abnormal: [">=", 120]}   # surawicz2009aha3
+  qt_ms:           {normal: [350, 450]}                         # rautaharju2009aha4
+  # QTc prolonged >= 450 ms (men) / >= 460 ms (women), short <= 390 ms. One threshold
+  # per feature: 460 ms is prolonged for both sexes.
+  qtc_ms:          {normal: [390, 450], abnormal: [">=", 460]}  # rautaharju2009aha4
+  tpe_qt_ratio:    {normal: [0.15, 0.25]}                       # gupta2008tpe
+  st_after_j_ms: 60            # ST level at J + 60 ms; T peak is searched after it
+  fqrs:                        # das2006fqrs
+    max_qrs_ms: 120            # Das narrow-QRS criteria; wider complexes -> not applicable
+    min_leads: 2               # fragmented in >= 2 leads of one coronary territory
+    min_prominence_mv: 0.05    # ours: smallest counted notch; pre-specified, not tuned
+    # ours: notches are high-frequency content that the 40 Hz analysis band removes,
+    # so fQRS is read on its own median beat filtered to this band (upper edge is
+    # capped below Nyquist for low-rate recordings)
+    band_hz: [0.5, 100]
+    territories:
+      anterior: [V1, V2, V3, V4, V5]
+      lateral:  [I, aVL, V6]
+      inferior: [II, III, aVF]
+
+# Atrial family (pulse_ecg/features/atrial.py). Same convention as ventricular:
+# the @feature declarations read normal / abnormal from here; cite key beside each.
+atrial:
+  min_duration_s: 0            # median-beat features; beat.min_beats already gates length
+  # PRIMARY ENDPOINT (analysis.primary). Continuous; the 120 ms cut is descriptive.
+  p_duration_ms: {normal: [80, 120], abnormal: [">=", 120]}     # martinezselles2020bayes
+  # Morris index: abnormal <= -0.04 mm·s = -4000 µV·ms (10 mm/mV, 25 mm/s).
+  ptfv1_uv_ms:   {normal: [-4000, 0], abnormal: ["<=", -4000]}  # morris1964ptfv1
+  p_axis_deg:    {normal: [0, 75]}                              # maheshwari2017paxis
+  # ours: smallest deflection counted as a P-wave component (terminal negative
+  # part of V1 for PTFV1; each half of a +/- P for IAB). Pre-specified, not tuned;
+  # equals bounds.p_min_mv.
+  min_deflection_mv: 0.02
+  iab:                         # bayesdeluna2012iab — SECONDARY / DESCRIPTIVE only
+    p_ms: 120                  # partial IAB: P >= 120 ms
+    inferior_leads: [II, III, aVF]
+    # Advanced IAB: P >= 120 ms AND +/- P in at least this many inferior leads.
+    # Bayés de Luna 2012 requires all three (3); the study protocol specifies
+    # "II, III or aVF" (1). Kept at the protocol value; 3 is the strict variant.
+    advanced_min_leads: 1
+    abnormal: [">=", 1]
+  mvp:                         # alexander2019mvp; score 0-6 = M + V + P points
+    # V: P amplitude in lead I. > hi: 0, lo..hi: 1, < lo: 2
+    voltage_mv: [0.1, 0.2]
+    # P: P duration.            < lo: 0, lo..hi: 1, > hi: 2
+    duration_ms: [120, 140]
+    # risk groups: low 0-2, intermediate 3-4, high 5-6
+    normal: [0, 2]
+    abnormal: [">=", 5]
+
+qc:      {hr: [40, 200], qrs_ms: [50, 200], qt_ms: [250, 600], p_ms: [50, 200]}
+
+cohort:
+  seed: 42
+  split_by: patient_id          # Rule 2: never ecg_id
+  min_age: 40
+  gate1_min_mean_age: 55        # Gate 1
+  sinus_codes: [SR]             # every analysed record must carry one of these
+  # SCP statements in PTB-XL carry a likelihood (0-100); 0 means "not stated",
+  # not "absent". Start inclusive; re-run Gate 1 at 100 as a sensitivity check.
+  min_likelihood: 0
+  primary:                      # design A: cardiologist left-atrial label
+    label_codes: ["LAO/LAE"]
+    control: normal_sinus       # SR with no LAO/LAE code
+  secondary:                    # design B: AF documented in another record
+    af_codes: [AFIB]
+    af_record_timing: any       # any | before_first_af
+  age_tol: 5
+  match_exact: [sex]           # matched exactly on these, and on age within age_tol
+  controls_per_case: 2
+
+analysis:
+  # Primary endpoint is continuous (paper/notes/methods_delineation_and_endpoints.md).
+  # Dichotomising P duration at 120 ms is secondary and descriptive only: on held-out
+  # LUDB, agreement on the 120 ms call was kappa 0.24-0.26.
+  primary: {feature: p_duration_ms, design: A, effect: [mean_difference_ms, standardised], ci: 0.95}
+  secondary_descriptive: [iab_class]
+  sensitivity_designs: [B]
+
+gate2:
+  primary: ludb
+  secondary: qtdb
+  # CSE 2-SD inter-expert tolerances (cse1985standards, Table 2, as tabulated in
+  # martinez2004wavedet Table III). "Loose" criterion: SD <= tolerance.
+  # Constants in `bounds` are tuned on the tune half of LUDB only; Gate 2 is
+  # reported on the held-out half and on QTDB (fully external).
+  split_seed: 42
+  p_duration_threshold_ms: 120   # IAB / prolonged P (martinezselles2020bayes)
+  tune_frac: 0.5
+  cse_2sd_tol_ms: {p_onset: 10.2, p_offset: 12.7, qrs_onset: 6.5, qrs_offset: 11.6, t_offset: 30.6}
+  # Published wavelet delineator on QTDB (martinez2004wavedet Table III): SD of
+  # error, averaged within records, best channel per point.
+  martinez2004_sd_ms: {p_onset: 14.8, p_offset: 12.8, qrs_onset: 7.7, qrs_offset: 8.7, t_offset: 18.1}
+
+parallel:
+  workers: null                 # null = os.cpu_count()
+  checkpoint_every: 500

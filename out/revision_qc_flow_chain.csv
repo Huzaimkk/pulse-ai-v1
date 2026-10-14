@@ -1,0 +1,17 @@
+group,step,n,lost
+case,"eligible (sinus, first record per patient)",332.0,
+case,lost: records500 file absent,,0.0
+case,lost: age < 40,,5.0
+case,usable,327.0,
+case,lost: not selected by matching,,0.0
+case,matched (entered QC),327.0,
+case,lost: QC exclusion,,68.0
+case,analysed,259.0,
+control,"eligible (sinus, first record per patient)",14700.0,
+control,lost: records500 file absent,,0.0
+control,lost: age < 40,,2113.0
+control,usable,12587.0,
+control,lost: not selected by matching,,11933.0
+control,matched (entered QC),654.0,
+control,lost: QC exclusion,,138.0
+control,analysed,516.0,

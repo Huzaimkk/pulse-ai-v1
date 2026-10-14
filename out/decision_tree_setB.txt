@@ -1,0 +1,25 @@
+Decision tree, feature set B, refit on all 775 records (max_depth 3 chosen by 5-fold grouped CV AUROC 0.701). Missing values median-imputed.
+class 0 = control, class 1 = LAE case
+
+|--- st_j60_v6_mv <= -0.05
+|   |--- age <= 65.50
+|   |   |--- st_j60_v3_mv <= 0.04
+|   |   |   |--- weights: [6.00, 7.00] class: 1
+|   |   |--- st_j60_v3_mv >  0.04
+|   |   |   |--- weights: [1.00, 30.00] class: 1
+|   |--- age >  65.50
+|   |   |--- rmssd_ms <= 9.26
+|   |   |   |--- weights: [8.00, 29.00] class: 1
+|   |   |--- rmssd_ms >  9.26
+|   |   |   |--- weights: [50.00, 43.00] class: 0
+|--- st_j60_v6_mv >  -0.05
+|   |--- qtc_bazett_ms <= 477.29
+|   |   |--- st_j60_v2_mv <= -0.03
+|   |   |   |--- weights: [2.00, 5.00] class: 1
+|   |   |--- st_j60_v2_mv >  -0.03
+|   |   |   |--- weights: [313.00, 56.00] class: 0
+|   |--- qtc_bazett_ms >  477.29
+|   |   |--- qtc_bazett_ms <= 607.40
+|   |   |   |--- weights: [131.00, 70.00] class: 0
+|   |   |--- qtc_bazett_ms >  607.40
+|   |   |   |--- weights: [5.00, 19.00] class: 1

@@ -1,0 +1,1 @@
+Limitation (fQRS): the Das notch criterion counts an rSr′ pattern in V1 as fragmented, and rSr′ in V1 occurs in healthy subjects, so any anterior-territory fQRS count on real data inherits this false positive (asserted by `tests/test_ventricular.py::test_v1_rsr_prime_counts_as_fragmented`).

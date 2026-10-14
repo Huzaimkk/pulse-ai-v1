@@ -1,0 +1,7 @@
+feature,stratum,n,median,ref_lo,ref_hi,offset_lo,offset_hi
+p_duration_ms,pooled,775,143.0,115,125,18.0,28.0
+p_duration_ms,men,303,146.0,120,121,25.0,26.0
+p_duration_ms,women,245,142.0,114,118,24.0,28.0
+qrs_duration_ms,pooled,775,112.0,95,100,12.0,17.0
+qrs_duration_ms,men,303,116.0,98,101,15.0,18.0
+qrs_duration_ms,women,245,107.0,92,92,15.0,15.0

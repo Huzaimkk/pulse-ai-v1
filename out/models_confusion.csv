@@ -1,0 +1,11 @@
+set,model,tn,fp,fn,tp
+A,majority_class,516,0,259,0
+A,logistic_l2,403,113,82,177
+A,decision_tree,364,152,75,184
+A,random_forest,370,146,58,201
+A,hist_gradient_boosting,385,131,65,194
+B,majority_class,516,0,259,0
+B,logistic_l2,371,145,102,157
+B,decision_tree,380,136,105,154
+B,random_forest,360,156,85,174
+B,hist_gradient_boosting,356,160,84,175

@@ -1,0 +1,27 @@
+analysis,group,variable,included,excluded,test,p
+POST-HOC revision,all,n,775,206,,
+POST-HOC revision,all,"Age, y",68.3 ± 12.1 (n=775),68.4 ± 12.8 (n=206),Welch t,0.9137873662077297
+POST-HOC revision,all,"HR, bpm",73.9 ± 12.3 (n=775),73.9 ± 13.2 (n=206),Welch t,0.9551066509856724
+POST-HOC revision,all,"Beats, n",12.2 ± 2.1 (n=775),12.1 ± 2.0 (n=206),Welch t,0.6946267264705807
+POST-HOC revision,all,"P duration, ms",145.7 ± 19.7 (n=775),162.8 ± 28.1 (n=206),Welch t,1.1962562944843107e-14
+POST-HOC revision,all,"QRS, ms",119.1 ± 26.6 (n=775),162.2 ± 40.8 (n=206),Welch t,1.2850011097893779e-34
+POST-HOC revision,all,"QTcF, ms",463.5 ± 55.2 (n=775),498.7 ± 60.5 (n=206),Welch t,5.764955922098438e-13
+POST-HOC revision,all,"Male, n (%)",462 (59.6),129 (62.6),chi-square,0.43291243955555314
+POST-HOC revision,case,n,259,68,,
+POST-HOC revision,case,"Age, y",68.3 ± 11.9 (n=259),68.2 ± 13.5 (n=68),Welch t,0.9509478155390994
+POST-HOC revision,case,"HR, bpm",77.2 ± 12.9 (n=259),77.7 ± 14.7 (n=68),Welch t,0.7960689259632698
+POST-HOC revision,case,"Beats, n",12.8 ± 2.2 (n=259),12.6 ± 2.0 (n=68),Welch t,0.5951266692800657
+POST-HOC revision,case,"P duration, ms",147.0 ± 19.2 (n=259),160.4 ± 29.5 (n=68),Welch t,0.0006359719824756217
+POST-HOC revision,case,"QRS, ms",128.5 ± 29.6 (n=259),174.2 ± 42.0 (n=68),Welch t,7.083250772274909e-13
+POST-HOC revision,case,"QTcF, ms",485.4 ± 59.9 (n=259),517.2 ± 64.5 (n=68),Welch t,0.0003970864042307615
+POST-HOC revision,case,"Male, n (%)",152 (58.7),45 (66.2),chi-square,0.26140478132183154
+POST-HOC revision,control,n,516,138,,
+POST-HOC revision,control,"Age, y",68.2 ± 12.1 (n=516),68.5 ± 12.6 (n=138),Welch t,0.8569139730493283
+POST-HOC revision,control,"HR, bpm",72.2 ± 11.7 (n=516),72.1 ± 12.0 (n=138),Welch t,0.9071188801316226
+POST-HOC revision,control,"Beats, n",11.9 ± 2.0 (n=516),11.9 ± 2.0 (n=138),Welch t,0.9416312996260727
+POST-HOC revision,control,"P duration, ms",145.0 ± 20.0 (n=516),163.9 ± 27.5 (n=138),Welch t,2.0985742109515038e-12
+POST-HOC revision,control,"QRS, ms",114.4 ± 23.6 (n=516),156.3 ± 39.1 (n=138),Welch t,2.6077720401955583e-24
+POST-HOC revision,control,"QTcF, ms",452.6 ± 49.2 (n=516),489.5 ± 56.5 (n=138),Welch t,3.7886958099691064e-11
+POST-HOC revision,control,"Male, n (%)",310 (60.1),84 (60.9),chi-square,0.8658939125344765
+POST-HOC revision,key check,Exclusion rate,case 68/327 (20.8%),control 138/654 (21.1%),chi-square=0.012 (Fisher p=0.934),0.9117293560471327
+POST-HOC revision,key check,First-reason mix (4 reasons x group),"case qrs_onset_before_p_offset=40, range:qrs_ms=21, range:qt_ms=2, range:p_ms=5","control qrs_onset_before_p_offset=112, range:qrs_ms=12, range:qt_ms=2, range:p_ms=12","chi-square=17.699, df=3",0.000507293716732251

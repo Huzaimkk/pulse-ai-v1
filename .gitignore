@@ -1,0 +1,29 @@
+# --- never upload ---
+# PTB-XL, LUDB, QTDB: download from PhysioNet instead
+data/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# old, unrelated material
+previous work and data set/
+relevant_material/
+*.zip
+*.html
+CLAUDE_1.md
+Code_Architecture_Plan.md
+Device_Role_and_Positioning.md
+
+# --- secrets ---
+.env
+.env.*
+
+# --- LaTeX build files (any folder) ---
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz

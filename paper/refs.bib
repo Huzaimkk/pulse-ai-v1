@@ -1,0 +1,372 @@
+% PULSE AI — ECG track bibliography.
+% Every DOI below was resolved against Crossref on 2026-09-28.
+% Feature `cite=` keys in pulse_ecg/features/ must exist in this file
+% (enforced by tests/test_citations.py).
+
+% ---------------------------------------------------------------- datasets ---
+@article{wagner2020ptbxl,
+  author  = {Wagner, Patrick and Strodthoff, Nils and Bousseljot, Ralf-Dieter and Kreiseler, Dieter and Lunze, Fatima I. and Samek, Wojciech and Schaeffter, Tobias},
+  title   = {{PTB-XL}, a large publicly available electrocardiography dataset},
+  journal = {Scientific Data},
+  volume  = {7},
+  number  = {1},
+  pages   = {154},
+  year    = {2020},
+  doi     = {10.1038/s41597-020-0495-6}
+}
+
+@article{kalyakulina2020ludb,
+  author  = {Kalyakulina, Alena I. and Yusipov, Igor I. and Moskalenko, Viktor A. and Nikolskiy, Alexander V. and Kosonogov, Konstantin A. and Osipov, Grigory V. and Zolotykh, Nikolai Yu. and Ivanchenko, Mikhail V.},
+  title   = {{LUDB}: A New Open-Access Validation Tool for Electrocardiogram Delineation Algorithms},
+  journal = {IEEE Access},
+  volume  = {8},
+  pages   = {186181--186190},
+  year    = {2020},
+  doi     = {10.1109/ACCESS.2020.3029211}
+}
+
+@inproceedings{laguna1997qtdb,
+  author    = {Laguna, Pablo and Mark, Roger G. and Goldberger, Ary and Moody, George B.},
+  title     = {A database for evaluation of algorithms for measurement of {QT} and other waveform intervals in the {ECG}},
+  booktitle = {Computers in Cardiology 1997},
+  pages     = {673--676},
+  year      = {1997},
+  doi       = {10.1109/CIC.1997.648140}
+}
+
+@article{goldberger2000physionet,
+  author  = {Goldberger, Ary L. and Amaral, Luis A. N. and Glass, Leon and Hausdorff, Jeffrey M. and Ivanov, Plamen Ch. and Mark, Roger G. and Mietus, Joseph E. and Moody, George B. and Peng, Chung-Kang and Stanley, H. Eugene},
+  title   = {{PhysioBank}, {PhysioToolkit}, and {PhysioNet}: Components of a New Research Resource for Complex Physiologic Signals},
+  journal = {Circulation},
+  volume  = {101},
+  number  = {23},
+  pages   = {e215--e220},
+  year    = {2000},
+  doi     = {10.1161/01.CIR.101.23.e215}
+}
+
+% ------------------------------------------------------- clinical evidence ---
+% Fig 3: advanced IAB -> incident AF, HR 3.31 (95% CI 1.87-5.86);
+% same paper: advanced IAB -> stroke, HR 4.89 (95% CI 1.71-14.05).
+@article{martinezselles2020bayes,
+  author  = {Mart{\'i}nez-Sell{\'e}s, Manuel and Elosua, Roberto and Ibarrola, Marta and de Andr{\'e}s, Mireia and D{\'i}ez-Villanueva, Pablo and Bay{\'e}s-Genis, Antoni and Baranchuk, Adri{\'a}n and Bay{\'e}s-de-Luna, Antoni and {BAYES Registry Investigators}},
+  title   = {Advanced interatrial block and {P}-wave duration are associated with atrial fibrillation and stroke in older adults with heart disease: the {BAYES} registry},
+  journal = {EP Europace},
+  volume  = {22},
+  number  = {7},
+  pages   = {1001--1008},
+  year    = {2020},
+  doi     = {10.1093/europace/euaa114}
+}
+
+% Fig 3: AF -> stroke, ~5x risk.
+@article{wolf1991framingham,
+  author  = {Wolf, Philip A. and Abbott, Robert D. and Kannel, William B.},
+  title   = {Atrial fibrillation as an independent risk factor for stroke: the {Framingham} Study},
+  journal = {Stroke},
+  volume  = {22},
+  number  = {8},
+  pages   = {983--988},
+  year    = {1991},
+  doi     = {10.1161/01.STR.22.8.983}
+}
+
+% Closest ML precedent: AF identified from sinus-rhythm ECGs.
+% NOTE: this is The Lancet, not Nature Medicine. Attia et al.'s 2019 Nature
+% Medicine paper (doi 10.1038/s41591-018-0240-2) is about low ejection fraction.
+@article{attia2019af,
+  author  = {Attia, Zachi I. and Noseworthy, Peter A. and Lopez-Jimenez, Francisco and Asirvatham, Samuel J. and Deshmukh, Abhishek J. and Gersh, Bernard J. and Carter, Rickey E. and Yao, Xiaoxi and Rabinstein, Alejandro A. and Erickson, Brad J. and Kapa, Suraj and Friedman, Paul A.},
+  title   = {An artificial intelligence-enabled {ECG} algorithm for the identification of patients with atrial fibrillation during sinus rhythm: a retrospective analysis of outcome prediction},
+  journal = {The Lancet},
+  volume  = {394},
+  number  = {10201},
+  pages   = {861--867},
+  year    = {2019},
+  doi     = {10.1016/S0140-6736(19)31721-0}
+}
+
+% Treatment trial in atrial cardiopathy; addressed in Discussion
+% (paper/notes/discussion_arcadia.md).
+@article{kamel2024arcadia,
+  author  = {Kamel, Hooman and Longstreth, W. T., Jr. and Tirschwell, David L. and Kronmal, Richard A. and Marshall, Randolph S. and Broderick, Joseph P. and others},
+  title   = {Apixaban to Prevent Recurrence After Cryptogenic Stroke in Patients With Atrial Cardiopathy: The {ARCADIA} Randomized Clinical Trial},
+  journal = {JAMA},
+  volume  = {331},
+  number  = {7},
+  pages   = {573--581},
+  year    = {2024},
+  doi     = {10.1001/jama.2023.27188}
+}
+
+% ------------------------------------------------------------ delineation ---
+% Gate 2 delineator. Table III (QTDB, mean +- SD in ms, SD = average of
+% within-record SDs, best channel per point): Pon 2.0+-14.8, Pend 1.9+-12.8,
+% QRSon 4.6+-7.7, QRSend 0.8+-8.7, Tend -1.6+-18.1.
+@article{martinez2004wavedet,
+  author  = {Mart{\'i}nez, Juan Pablo and Almeida, Rute and Olmos, Salvador and Rocha, Ana Paula and Laguna, Pablo},
+  title   = {A Wavelet-Based {ECG} Delineator: Evaluation on Standard Databases},
+  journal = {IEEE Transactions on Biomedical Engineering},
+  volume  = {51},
+  number  = {4},
+  pages   = {570--581},
+  year    = {2004},
+  doi     = {10.1109/TBME.2003.821031}
+}
+
+% Multilead selection rule (k nearest marks within delta ms), as applied by
+% Martinez 2004 to the 12-lead CSE database.
+@article{laguna1994multilead,
+  author  = {Laguna, Pablo and Jan{\'e}, Raimon and Caminal, Pere},
+  title   = {Automatic Detection of Wave Boundaries in Multilead {ECG} Signals: Validation with the {CSE} Database},
+  journal = {Computers and Biomedical Research},
+  volume  = {27},
+  number  = {1},
+  pages   = {45--60},
+  year    = {1994},
+  doi     = {10.1006/cbmr.1994.1006}
+}
+
+% Two-SD inter-expert tolerances (Table 2): Pon 10.2, Pend 12.7, QRSon 6.5,
+% QRSend 11.6, Tend 30.6 ms. Values as tabulated in martinez2004wavedet Table III.
+@article{cse1985standards,
+  author  = {{The CSE Working Party}},
+  title   = {Recommendations for measurement standards in quantitative electrocardiography},
+  journal = {European Heart Journal},
+  volume  = {6},
+  number  = {10},
+  pages   = {815--825},
+  year    = {1985},
+  doi     = {10.1093/oxfordjournals.eurheartj.a061766}
+}
+
+% ------------------------------------------------------ feature definitions ---
+% Added 2026-09-29; DOIs and metadata taken from Crossref on that date.
+% Every normal range / threshold in pulse_ecg/features/ cites one of these.
+
+@article{taskforce1996hrv,
+  author  = {{Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology}},
+  title   = {Heart Rate Variability: Standards of Measurement, Physiological Interpretation, and Clinical Use},
+  journal = {Circulation},
+  volume  = {93},
+  number  = {5},
+  pages   = {1043--1065},
+  year    = {1996},
+  doi     = {10.1161/01.CIR.93.5.1043}
+}
+
+@article{richman2000sampen,
+  author  = {Richman, Joshua S. and Moorman, J. Randall},
+  title   = {Physiological time-series analysis using approximate entropy and sample entropy},
+  journal = {American Journal of Physiology-Heart and Circulatory Physiology},
+  volume  = {278},
+  number  = {6},
+  pages   = {H2039--H2049},
+  year    = {2000},
+  doi     = {10.1152/ajpheart.2000.278.6.H2039}
+}
+
+@article{peng1995dfa,
+  author  = {Peng, C.-K. and Havlin, Shlomo and Stanley, H. Eugene and Goldberger, Ary L.},
+  title   = {Quantification of scaling exponents and crossover phenomena in nonstationary heartbeat time series},
+  journal = {Chaos},
+  volume  = {5},
+  number  = {1},
+  pages   = {82--87},
+  year    = {1995},
+  doi     = {10.1063/1.166141}
+}
+
+@article{bazett1920qt,
+  author  = {Bazett, H. C.},
+  title   = {An analysis of the time-relations of electrocardiograms},
+  journal = {Annals of Noninvasive Electrocardiology},
+  volume  = {2},
+  number  = {2},
+  pages   = {177--194},
+  year    = {1997},
+  note    = {Reprint of Heart 1920;7:353--370},
+  doi     = {10.1111/j.1542-474X.1997.tb00325.x}
+}
+
+@article{fridericia1920qt,
+  author  = {Fridericia, L. S.},
+  title   = {Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken},
+  journal = {Acta Medica Scandinavica},
+  volume  = {53},
+  number  = {1},
+  pages   = {469--486},
+  year    = {1920},
+  doi     = {10.1111/j.0954-6820.1920.tb18266.x}
+}
+
+@article{das2006fqrs,
+  author  = {Das, Mithilesh K. and Khan, Bilal and Jacob, Sony and Kumar, Awaneesh and Mahenthiran, Jo},
+  title   = {Significance of a Fragmented {QRS} Complex Versus a {Q} Wave in Patients With Coronary Artery Disease},
+  journal = {Circulation},
+  volume  = {113},
+  number  = {21},
+  pages   = {2495--2501},
+  year    = {2006},
+  doi     = {10.1161/CIRCULATIONAHA.105.595892}
+}
+
+@article{morris1964ptfv1,
+  author  = {Morris, James J. and Estes, E. Harvey and Whalen, Robert E. and Thompson, Howard K. and McIntosh, Henry D.},
+  title   = {{P}-Wave Analysis in Valvular Heart Disease},
+  journal = {Circulation},
+  volume  = {29},
+  number  = {2},
+  pages   = {242--252},
+  year    = {1964},
+  doi     = {10.1161/01.CIR.29.2.242}
+}
+
+@article{gupta2008tpe,
+  author  = {Gupta, Prasad and Patel, Chinmay and Patel, Harsh and Narayanaswamy, Srinivasa and Malhotra, Binu and Green, Jared T. and Yan, Gan-Xin},
+  title   = {{Tp-e/QT} ratio as an index of arrhythmogenesis},
+  journal = {Journal of Electrocardiology},
+  volume  = {41},
+  number  = {6},
+  pages   = {567--574},
+  year    = {2008},
+  doi     = {10.1016/j.jelectrocard.2008.07.016}
+}
+
+@article{surawicz2009aha3,
+  author  = {Surawicz, Borys and Childers, Rory and Deal, Barbara J. and Gettes, Leonard S.},
+  title   = {{AHA/ACCF/HRS} Recommendations for the Standardization and Interpretation of the Electrocardiogram: Part {III}: Intraventricular Conduction Disturbances},
+  journal = {Circulation},
+  volume  = {119},
+  number  = {10},
+  pages   = {e235--e240},
+  year    = {2009},
+  doi     = {10.1161/CIRCULATIONAHA.108.191095}
+}
+
+@article{rautaharju2009aha4,
+  author  = {Rautaharju, Pentti M. and Surawicz, Borys and Gettes, Leonard S.},
+  title   = {{AHA/ACCF/HRS} Recommendations for the Standardization and Interpretation of the Electrocardiogram: Part {IV}: The {ST} Segment, {T} and {U} Waves, and the {QT} Interval},
+  journal = {Circulation},
+  volume  = {119},
+  number  = {10},
+  pages   = {e241--e250},
+  year    = {2009},
+  doi     = {10.1161/CIRCULATIONAHA.108.191096}
+}
+
+@article{hancock2009aha5,
+  author  = {Hancock, E. William and Deal, Barbara J. and Mirvis, David M. and Okin, Peter and Kligfield, Paul and Gettes, Leonard S.},
+  title   = {{AHA/ACCF/HRS} Recommendations for the Standardization and Interpretation of the Electrocardiogram: Part {V}: Electrocardiogram Changes Associated With Cardiac Chamber Hypertrophy},
+  journal = {Circulation},
+  volume  = {119},
+  number  = {10},
+  pages   = {e251--e261},
+  year    = {2009},
+  doi     = {10.1161/CIRCULATIONAHA.108.191097}
+}
+
+@article{rijnbeek2014normal,
+  author  = {Rijnbeek, Peter R. and van Herpen, Gerard and Bots, Michiel L. and Man, Sumche and Verweij, Niek and Hofman, Albert and Hillege, Hans and Numans, Matthijs E. and Swenne, Cees A. and Witteman, Jacqueline C. M. and Kors, Jan A.},
+  title   = {Normal values of the electrocardiogram for ages 16--90 years},
+  journal = {Journal of Electrocardiology},
+  volume  = {47},
+  number  = {6},
+  pages   = {914--921},
+  year    = {2014},
+  doi     = {10.1016/j.jelectrocard.2014.07.022}
+}
+
+@article{bayesdeluna2012iab,
+  author  = {Bay{\'e}s de Luna, Antonio and Platonov, Pyotr and Cosio, Francisco G. and Cygankiewicz, Iwona and Pastore, Carlos and Baranowski, Rafa and Bay{\'e}s-Genis, Antoni and Guindo, Josep and Vi{\~n}olas, Xavier and Garcia-Niebla, Javier and Barbosa, Raimundo and Stern, Shlomo and Spodick, David},
+  title   = {Interatrial blocks. A separate entity from left atrial enlargement: a consensus report},
+  journal = {Journal of Electrocardiology},
+  volume  = {45},
+  number  = {5},
+  pages   = {445--451},
+  year    = {2012},
+  doi     = {10.1016/j.jelectrocard.2012.06.029}
+}
+
+@article{alexander2019mvp,
+  author  = {Alexander, Bryce and Milden, Julia and Hazim, Bachar and Haseeb, Sohaib and Bay{\'e}s-Genis, Antoni and Elosua, Roberto and Mart{\'i}nez-Sell{\'e}s, Manuel and Yeung, Cynthia and Hopman, Wilma and Bay{\'e}s de Luna, Antoni and Baranchuk, Adrian},
+  title   = {New electrocardiographic score for the prediction of atrial fibrillation: The {MVP} {ECG} risk score (morphology-voltage-{P}-wave duration)},
+  journal = {Annals of Noninvasive Electrocardiology},
+  volume  = {24},
+  number  = {6},
+  pages   = {e12669},
+  year    = {2019},
+  doi     = {10.1111/anec.12669}
+}
+
+@article{maheshwari2017paxis,
+  author  = {Maheshwari, Ankit and Norby, Faye L. and Soliman, Elsayed Z. and Koene, Ryan J. and Rooney, Mary R. and O'Neal, Wesley T. and Alonso, Alvaro and Chen, Lin Y.},
+  title   = {Abnormal {P}-Wave Axis and Ischemic Stroke: The {ARIC} Study (Atherosclerosis Risk In Communities)},
+  journal = {Stroke},
+  volume  = {48},
+  number  = {8},
+  pages   = {2060--2065},
+  year    = {2017},
+  doi     = {10.1161/STROKEAHA.117.017226}
+}
+
+@article{clifford2012sqi,
+  author  = {Clifford, G. D. and Behar, J. and Li, Q. and Rezek, I.},
+  title   = {Signal quality indices and data fusion for determining clinical acceptability of electrocardiograms},
+  journal = {Physiological Measurement},
+  volume  = {33},
+  number  = {9},
+  pages   = {1419--1433},
+  year    = {2012},
+  doi     = {10.1088/0967-3334/33/9/1419}
+}
+
+% ------------------------------- measurement-method and age-matched norms ---
+@article{kligfield2007aha1,
+  author  = {Kligfield, Paul and Gettes, Leonard S. and Bailey, James J. and Childers, Rory and Deal, Barbara J. and Hancock, E. William and van Herpen, Gerard and Kors, Jan A. and Macfarlane, Peter and Mirvis, David M. and Pahlm, Olle and Rautaharju, Pentti and Wagner, Galen S.},
+  title   = {Recommendations for the Standardization and Interpretation of the Electrocardiogram: Part {I}: The Electrocardiogram and Its Technology},
+  journal = {Circulation},
+  volume  = {115},
+  number  = {10},
+  pages   = {1306--1324},
+  year    = {2007},
+  doi     = {10.1161/CIRCULATIONAHA.106.180200}
+}
+
+@article{havmoller2007pwave,
+  author  = {Havm{\"o}ller, Rasmus and Carlson, Jonas and Holmqvist, Fredrik and Herreros, Alberto and Meurling, Carl J. and Olsson, Bertil and Platonov, Pyotr},
+  title   = {Age-related changes in {P} wave morphology in healthy subjects},
+  journal = {BMC Cardiovascular Disorders},
+  volume  = {7},
+  number  = {1},
+  pages   = {22},
+  year    = {2007},
+  doi     = {10.1186/1471-2261-7-22}
+}
+
+@article{nielsen2015pwave,
+  author  = {Nielsen, Jonas B. and K{\"u}hl, J{\o}rgen T. and Pietersen, Adrian and Graff, Claus and Lind, Bent and Struijk, Johannes J. and Olesen, Morten S. and Sinner, Moritz F. and Bachmann, Troels N. and Hauns{\o}, Stig and Nordestgaard, B{\o}rge G. and Ellinor, Patrick T. and Svendsen, Jesper H. and Kofoed, Klaus F. and K{\o}ber, Lars and Holst, Anders G.},
+  title   = {{P}-wave duration and the risk of atrial fibrillation: Results from the {Copenhagen ECG Study}},
+  journal = {Heart Rhythm},
+  volume  = {12},
+  number  = {9},
+  pages   = {1887--1895},
+  year    = {2015},
+  doi     = {10.1016/j.hrthm.2015.04.026}
+}
+
+@article{giovanardi2022ecg,
+  author  = {Giovanardi, Paolo and Vernia, Cecilia and Tincani, Enrico and Giberti, Claudio and Silipo, Federico and Fabbo, Andrea},
+  title   = {Combined Effects of Age and Comorbidities on Electrocardiographic Parameters in a Large Non-Selected Population},
+  journal = {Journal of Clinical Medicine},
+  volume  = {11},
+  number  = {13},
+  pages   = {3737},
+  year    = {2022},
+  doi     = {10.3390/jcm11133737}
+}
+
+@IEEEtranBSTCTL{IEEEexample:BSTcontrol,
+  CTLuse_forced_etal       = "yes",
+  CTLmax_names_forced_etal = "6",
+  CTLnames_show_etal       = "3"
+}
